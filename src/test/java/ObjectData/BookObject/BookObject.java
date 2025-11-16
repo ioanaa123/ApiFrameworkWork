@@ -16,7 +16,7 @@ public class BookObject {
     private String author;
 
     @JsonProperty("publish_data")
-    private String publish_data;
+    private String publishData;
 
     @JsonProperty("publisher")
     private String publisher;
@@ -47,7 +47,7 @@ public class BookObject {
     }
 
     public String getPublish_data() {
-        return publish_data;
+        return publishData;
     }
 
     public String getPublisher() {
@@ -65,4 +65,6 @@ public class BookObject {
     public String getWebsite() {
         return website;
     }
+
+
 }
