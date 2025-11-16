@@ -25,10 +25,10 @@ public class RequestAccount implements RequestPreparation {
                     break;
             }
         }
-        adjustObjectValue();
+        adjustObjectVariable();
     }
 
-    private void adjustObjectValue(){
+    private void adjustObjectVariable() {
         userName = userName + System.currentTimeMillis();
     }
 
@@ -36,12 +36,12 @@ public class RequestAccount implements RequestPreparation {
         return userName;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public void setPassword(String password) {

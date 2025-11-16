@@ -1,19 +1,37 @@
 package tests;
 
 import ObjectData.RequestObject.RequestAccount;
+import ObjectData.ResponseObject.ResponseAccountGetSuccess;
 import ObjectData.ResponseObject.ResponseAccountSuccess;
+import ObjectData.ResponseObject.ResponseTokenSuccess;
 import PropertyUtility.PropertyUtility;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import io.restassured.response.ResponseBody;
 import io.restassured.specification.RequestSpecification;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class CreateAccountTest {
+    public String userId;
+    public RequestAccount requestAccountBody;
+    public String token;
 
     @Test
     public void testMethod() {
+        System.out.println("Step 1: Create a new account");
+        createAccount();
+        System.out.println();
+
+        System.out.println("Step 2: Generate new token");
+        generateToken();
+        System.out.println();
+
+        System.out.println("Step 3: Get new account");
+        getSpecificAccount();
+        System.out.println();
+    }
+
+    public void createAccount() {
         // definim configurarile pt client
         RequestSpecification requestSpecification = RestAssured.given();
         requestSpecification.baseUri("https://demoqa.com/");
@@ -21,22 +39,57 @@ public class CreateAccountTest {
 
         // definim request-ul
         PropertyUtility propertyUtility = new PropertyUtility("RequestData/createAccountData");
-        RequestAccount requestAccountBody = new RequestAccount(propertyUtility.getAllData());
-
-//        JSONObject  createUserBody = new JSONObject();
-//        createUserBody.put("userName", "AutomationTest" + System.currentTimeMillis());
-//        createUserBody.put("password", "P@ssw0rd!2");
+        requestAccountBody = new RequestAccount(propertyUtility.getAllData());
         requestSpecification.body(requestAccountBody);
 
         // interactional cu response-ul
         Response response = requestSpecification.post("/Account/v1/User");
         System.out.println(response.getStatusCode());
+        Assert.assertEquals(response.getStatusCode(), 201);
         System.out.println(response.getStatusLine());
+
 
         //Validam response body-ul
         ResponseAccountSuccess responseAccountBody = response.body().as(ResponseAccountSuccess.class);
-        System.out.println(responseAccountBody.getUserID());
-        Assert.assertEquals(responseAccountBody.getUserName(), responseAccountBody.getUserName());
+        userId = responseAccountBody.getUserID();
+        Assert.assertEquals(responseAccountBody.getUsername(), requestAccountBody.getUserName());
+    }
+
+    public void generateToken() {
+        RequestSpecification requestSpecification = RestAssured.given();
+        requestSpecification.baseUri("https://demoqa.com/");
+        requestSpecification.contentType("application/json");
+
+        requestSpecification.body(requestAccountBody);
+
+        Response response = requestSpecification.post("/Account/v1/GenerateToken");
+        System.out.println(response.getStatusCode());
+        Assert.assertEquals(response.getStatusCode(), 200);
+        System.out.println(response.getStatusLine());
+
+        ResponseTokenSuccess responseToken = response.body().as(ResponseTokenSuccess.class);
+        System.out.println(responseToken.getToken());
+        token = responseToken.getToken();
+        System.out.println(responseToken.getStatus());
+        Assert.assertEquals(responseToken.getStatus(), "Success");
+        System.out.println(responseToken.getResult());
+        Assert.assertEquals(responseToken.getResult(), "User authorized successfully.");
+    }
+
+    public void getSpecificAccount() {
+        RequestSpecification requestSpecification = RestAssured.given();
+        requestSpecification.baseUri("https://demoqa.com/");
+        requestSpecification.contentType("application/json");
+        requestSpecification.header("Authorization", "Bearer " + token);
+
+        Response response = requestSpecification.get("/Account/v1/User/" + userId);
+        System.out.println(response.getStatusCode());
+        Assert.assertEquals(response.getStatusCode(), 200);
+        System.out.println(response.getStatusLine());
+
+        ResponseAccountGetSuccess responseAccountGetSuccess = response.body().as(ResponseAccountGetSuccess.class);
+        Assert.assertEquals(responseAccountGetSuccess.getUsername(), requestAccountBody.getUserName());
+        System.out.println(responseAccountGetSuccess.getUsername());
 
     }
 }
