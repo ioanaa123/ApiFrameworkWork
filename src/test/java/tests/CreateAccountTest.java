@@ -50,9 +50,7 @@ public class CreateAccountTest {
         ResponseAccountSuccess responseAccountBody = accountActions.createNewAccount(requestAccountBody);
 
         userId = responseAccountBody.getUserID();
-
-        accountActions.authorizeNewAccount(requestAccountBody);
-
+//        accountActions.authorizeNewAccount(requestAccountBody);
     }
 
     public void generateToken() {
@@ -61,20 +59,7 @@ public class CreateAccountTest {
     }
 
     public void getSpecificAccount() {
-        RequestSpecification requestSpecification = RestAssured.given();
-        requestSpecification.baseUri("https://demoqa.com/");
-        requestSpecification.contentType("application/json");
-        requestSpecification.header("Authorization", "Bearer " + token);
-
-        Response response = requestSpecification.get("/Account/v1/User/" + userId);
-        System.out.println(response.getStatusCode());
-        Assert.assertEquals(response.getStatusCode(), 200);
-        System.out.println(response.getStatusLine());
-
-        ResponseAccountGetSuccess responseAccountGetSuccess = response.body().as(ResponseAccountGetSuccess.class);
-        Assert.assertEquals(responseAccountGetSuccess.getUsername(), requestAccountBody.getUserName());
-        System.out.println(responseAccountGetSuccess.getUsername());
-
+        accountActions.getSpecificAccount(token, userId, requestAccountBody);
     }
 
     public void deleteSpecificAccount() {
