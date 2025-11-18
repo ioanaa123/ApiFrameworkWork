@@ -53,51 +53,11 @@ public class CreateAccountTest {
 
         accountActions.authorizeNewAccount(requestAccountBody);
 
-//        definim configurarile pt client
-//        RequestSpecification requestSpecification = RestAssured.given();
-//        requestSpecification.baseUri("https://demoqa.com/");
-//        requestSpecification.contentType("application/json");
-//
-//        // definim request-ul
-//        PropertyUtility propertyUtility = new PropertyUtility("RequestData/createAccountData");
-//        requestAccountBody = new RequestAccount(propertyUtility.getAllData());
-//        requestSpecification.body(requestAccountBody);
-//
-//        // interactional cu response-ul
-//        Response response = requestSpecification.post("/Account/v1/User");
-//        System.out.println(response.getStatusCode());
-//        Assert.assertEquals(response.getStatusCode(), 201);
-//        System.out.println(response.getStatusLine());
-//
-//
-//        //Validam response body-ul
-//        ResponseAccountSuccess responseAccountBody = response.body().as(ResponseAccountSuccess.class);
-//        userId = responseAccountBody.getUserID();
-//        Assert.assertEquals(responseAccountBody.getUsername(), requestAccountBody.getUserName());
     }
 
     public void generateToken() {
         ResponseTokenSuccess responseToken = accountActions.generateToken(requestAccountBody);
         token = responseToken.getToken();
-
-//        RequestSpecification requestSpecification = RestAssured.given();
-//        requestSpecification.baseUri("https://demoqa.com/");
-//        requestSpecification.contentType("application/json");
-//
-//        requestSpecification.body(requestAccountBody);
-//
-//        Response response = requestSpecification.post("/Account/v1/GenerateToken");
-//        System.out.println(response.getStatusCode());
-//        Assert.assertEquals(response.getStatusCode(), 200);
-//        System.out.println(response.getStatusLine());
-//
-//        ResponseTokenSuccess responseToken = response.body().as(ResponseTokenSuccess.class);
-//        System.out.println(responseToken.getToken());
-//        token = responseToken.getToken();
-//        System.out.println(responseToken.getStatus());
-//        Assert.assertEquals(responseToken.getStatus(), "Success");
-//        System.out.println(responseToken.getResult());
-//        Assert.assertEquals(responseToken.getResult(), "User authorized successfully.");
     }
 
     public void getSpecificAccount() {
@@ -115,10 +75,9 @@ public class CreateAccountTest {
         Assert.assertEquals(responseAccountGetSuccess.getUsername(), requestAccountBody.getUserName());
         System.out.println(responseAccountGetSuccess.getUsername());
 
-//        accountActions.getSpecificAccount(token, userId, requestAccountBody);
     }
 
-    public void deleteSpecificAccount(){
+    public void deleteSpecificAccount() {
         accountActions.deleteSpecificAccount(token, userId);
     }
 }
