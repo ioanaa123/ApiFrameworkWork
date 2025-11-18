@@ -3,8 +3,6 @@ package RestClient;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
-import static io.restassured.RestAssured.requestSpecification;
-
 public class RestClient {
     // Layer 1 = clasa unde sunt definite configurari la nivel de client
     // de facut 2 actiuni:
@@ -18,7 +16,7 @@ public class RestClient {
         return requestSpecification;
     }
 
-    public Response performRequest(String requestType, RequestSpecification request, String endPoint){
+    public Response performRequest(String requestType, RequestSpecification requestSpecification, String endPoint){
         switch (requestType) {
             case RequestType.REQUEST_POST:
                 return prepareClient(requestSpecification).post(endPoint);

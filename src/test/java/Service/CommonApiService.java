@@ -24,6 +24,13 @@ public class CommonApiService {
         return response;
     }
 
+    public Response delete(String token, String endPoint) {
+        RequestSpecification requestSpecification = RestAssured.given();
+        requestSpecification.header("Authorization", "Bearer Token" + token);
+        Response response = performRequest(RequestType.REQUEST_DELETE, requestSpecification, endPoint);
+        return response;
+    }
+
 
     // metoda care instanteaza legatura cu layer
     private Response performRequest(String requestType, RequestSpecification requestSpecification, String endPoint) {

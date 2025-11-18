@@ -16,7 +16,12 @@ public class AccountServiceImpl implements AccountServiceInterface {
 
     @Override
     public Response createAccount(RequestAccount body) {
-        return accountApiService.post(body, "/Account/v1/GenerateToken");
+        return accountApiService.post(body, "/Account/v1/User");
+    }
+
+    @Override
+    public Response authotizeAccount(RequestAccount body) {
+        return accountApiService.post(body, "/Account/v1/Authorized");
     }
 
     @Override
@@ -27,11 +32,11 @@ public class AccountServiceImpl implements AccountServiceInterface {
     @Override
     public Response getSpecificAccount(String token, String userId) {
        String url = "/Account/v1/User/" + userId;
-       return accountApiService.get(token, "/Account/v1/User/" + url);
+       return accountApiService.get(token, url);
     }
 
     @Override
     public Response deleteSpecificAccount(String token, String userId) {
-        return null;
-    }
+        String url = "/Account/v1/User/" + userId;
+        return accountApiService.delete(token, url);    }
 }

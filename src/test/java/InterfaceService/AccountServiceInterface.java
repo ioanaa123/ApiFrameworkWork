@@ -7,6 +7,8 @@ public interface AccountServiceInterface {
     // aceasta interfata reprezinta actiunile pe care vrem sa le facem cu un modul (Account)
     Response createAccount(RequestAccount body);
 
+    Response authotizeAccount(RequestAccount body);
+
     Response generateAccountToken(RequestAccount body);
 
     Response getSpecificAccount(String token, String userId);

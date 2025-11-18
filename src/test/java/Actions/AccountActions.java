@@ -23,7 +23,15 @@ public class AccountActions {
         Assert.assertEquals(response.getStatusCode(), ResponseStatus.SC_CREATED);
         ResponseAccountSuccess responseAccountBody = response.body().as(ResponseAccountSuccess.class);
         Assert.assertEquals(responseAccountBody.getUsername(), requestAccount.getUserName());
+        System.out.println(responseAccountBody.getUsername());
+        System.out.println(responseAccountBody.getUserID());
+
         return responseAccountBody;
+    }
+
+    public void authorizeNewAccount(RequestAccount requestAccount) {
+        Response response = accountServiceImpl.createAccount(requestAccount);
+        Assert.assertEquals(response.getStatusCode(), ResponseStatus.SC_OK);
     }
 
     public ResponseTokenSuccess generateToken(RequestAccount requestAccount) {
@@ -42,5 +50,10 @@ public class AccountActions {
 
         ResponseAccountGetSuccess responseAccountGetSuccess = response.body().as(ResponseAccountGetSuccess.class);
         Assert.assertEquals(responseAccountGetSuccess.getUsername(), requestAccount.getUserName());
+    }
+
+    public void deleteSpecificAccount(String token, String userId){
+        Response response = accountServiceImpl.deleteSpecificAccount(token, userId);
+        Assert.assertEquals(response.getStatusCode(), ResponseStatus.SC_NO_CONTENT);
     }
 }
