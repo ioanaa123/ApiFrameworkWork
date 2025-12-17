@@ -1,13 +1,14 @@
-package PropertyUtility;
+package PropertyUtils;
 
 import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Properties;
 
-public class PropertyUtility {
+public class PropertyUtils {
+
     private Properties properties;
 
-    public PropertyUtility(String fileName){
+    public PropertyUtils(String fileName){
         loadFile(fileName);
     }
 

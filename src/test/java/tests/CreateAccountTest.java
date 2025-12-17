@@ -1,19 +1,16 @@
 package tests;
 
 import Actions.AccountActions;
+import Hooks.Hooks;
 import ObjectData.RequestObject.RequestAccount;
-import ObjectData.ResponseObject.ResponseAccountGetSuccess;
 import ObjectData.ResponseObject.ResponseAccountSuccess;
 import ObjectData.ResponseObject.ResponseTokenSuccess;
-import PropertyUtility.PropertyUtility;
+import PropertyUtils.PropertyUtils;
 
-import io.restassured.RestAssured;
-import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
-import org.testng.Assert;
+
 import org.testng.annotations.Test;
 
-public class CreateAccountTest {
+public class CreateAccountTest extends Hooks {
     public String userId;
     public RequestAccount requestAccountBody;
     public String token;
@@ -45,12 +42,10 @@ public class CreateAccountTest {
     public void createAccount() {
         accountActions = new AccountActions();
 
-        PropertyUtility propertyUtility = new PropertyUtility("RequestData/createAccountData");
-        requestAccountBody = new RequestAccount(propertyUtility.getAllData());
+        PropertyUtils propertyUtils = new PropertyUtils("requestData/createAccountData");
+        requestAccountBody = new RequestAccount(propertyUtils.getAllData());
         ResponseAccountSuccess responseAccountBody = accountActions.createNewAccount(requestAccountBody);
-
         userId = responseAccountBody.getUserID();
-//        accountActions.authorizeNewAccount(requestAccountBody);
     }
 
     public void generateToken() {

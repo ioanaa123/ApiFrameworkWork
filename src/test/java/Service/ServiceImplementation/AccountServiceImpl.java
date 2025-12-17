@@ -20,7 +20,7 @@ public class AccountServiceImpl implements AccountServiceInterface {
     }
 
     @Override
-    public Response authotizeAccount(RequestAccount body) {
+    public Response authorizeAccount(RequestAccount body) {
         return accountApiService.post(body, "/Account/v1/Authorized");
     }
 

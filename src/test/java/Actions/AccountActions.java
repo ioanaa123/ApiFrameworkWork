@@ -31,7 +31,7 @@ public class AccountActions {
     }
 
     public void authorizeNewAccount(RequestAccount requestAccount) {
-        Response response = accountServiceImpl.createAccount(requestAccount);
+        Response response = accountServiceImpl.authorizeAccount(requestAccount);
         Assert.assertEquals(response.getStatusCode(), ResponseStatus.SC_OK);
     }
 
